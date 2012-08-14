@@ -1,7 +1,8 @@
 import re
 import os
 import lxml.html
-from fabric.api import put, settings
+from fabric.api import put, run
+from fabric.context_managers import settings
 
 
 class Server(object):
@@ -18,8 +19,12 @@ class Server(object):
             password=self.password)
 
     def put(self, local_path, remote_path):
-        with settings(self._settings):
+        with settings(**self._settings):
             put(local_path, remote_path)
+
+    def run(self, command):
+        with settings(**self._settings):
+            return run(command)
 
 
 class WebServer(object):
