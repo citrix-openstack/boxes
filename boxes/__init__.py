@@ -26,7 +26,7 @@ class Server(object):
 
     def run(self, command):
         with settings(**self._settings):
-            return run(command)
+            return run(command, shell=False)
 
 
 class WebServer(object):
