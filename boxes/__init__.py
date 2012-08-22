@@ -4,6 +4,8 @@ import lxml.html
 from fabric.api import put, run
 from fabric.context_managers import settings
 from fabric.network import disconnect_all as fab_disconnect_all
+import time
+import socket
 
 
 def disconnect_all():
@@ -32,6 +34,17 @@ class Server(object):
     def run(self, command):
         with settings(**self._settings):
             return run(command, shell=False)
+
+    def wait_for_ssh(self):
+        timeout = 10
+        while True:
+            try:
+                socket.create_connection((self.host, 22), timeout=timeout)
+                # A final sleep
+                time.sleep(timeout)
+                break
+            except Exception as e:
+                time.sleep(timeout)
 
 
 class WebServer(object):
