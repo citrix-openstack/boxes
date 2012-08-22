@@ -10,13 +10,15 @@ class Server(object):
         self.host = host
         self.user = user
         self.password = password
+        self.disable_known_hosts = False
 
     @property
     def _settings(self):
         return dict(
             host_string=self.host,
             user=self.user,
-            password=self.password)
+            password=self.password,
+            disable_known_hosts=self.disable_known_hosts)
 
     def put(self, local_path, remote_path):
         with settings(**self._settings):
