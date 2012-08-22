@@ -3,6 +3,11 @@ import os
 import lxml.html
 from fabric.api import put, run
 from fabric.context_managers import settings
+from fabric.network import disconnect_all as fab_disconnect_all
+
+
+def disconnect_all():
+    fab_disconnect_all()
 
 
 class Server(object):
