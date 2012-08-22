@@ -6,7 +6,7 @@ from fabric.context_managers import settings
 
 
 class Server(object):
-    def __init__(self, host, user, password):
+    def __init__(self, host, user, password=None):
         self.host = host
         self.user = user
         self.password = password
