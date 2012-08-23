@@ -10,7 +10,8 @@ setup(
     entry_points = {
         'console_scripts': [
             'install_xcp_xapi = boxes.scripts.install_xcp_xapi:main',
-            'add_precise_to_xs = boxes.scripts.add_precise_to_xs:main'
+            'add_precise_to_xs = boxes.scripts.add_precise_to_xs:main',
+            'create_start_deblike = boxes.scripts.create_start_deblike:main'
         ]
     }
 )

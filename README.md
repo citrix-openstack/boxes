@@ -27,3 +27,12 @@ This utility will create a template, called:
 on your XenServer/XCP:
 
     add_precise_to_xs root rootpassword yourxenserver.yourdomain
+
+Install and start a Debian-Like VM
+==================================
+This does not require the above template installation step. To Install a 
+precise machine:
+
+    create_start_deblike root rootpassword yourxenserver.yourdomain precise \
+    http://youraptcacher-ng.server:3142/archive.ubuntu.net/ubuntu \
+    http://yourwebserver/yourpreseed.cfg machinename    

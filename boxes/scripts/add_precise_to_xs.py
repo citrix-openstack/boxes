@@ -2,6 +2,7 @@ import sys
 import logging
 
 from boxes import Server
+from boxes.scripts import lib
 
 
 logger = logging.getLogger(__name__)
@@ -19,16 +20,12 @@ def main():
 
     logger.info('Query for existing precise template')
 
-    precise_uuid = xenhost.run(
-        'xe template-list name-label="{0}" --minimal'.format(precise_label))
+    precise_uuid = lib.template_uuid(xenhost, precise_label)
 
     if not precise_uuid:
         logger.info('No precise template found, cloning Lucid')
-        lucid_uuid = xenhost.run(
-            'xe template-list name-label="{0}" --minimal'.format(lucid_label))
-        precise_uuid = xenhost.run(
-            'xe vm-clone uuid={0} new-name-label="{1}"'
-            .format(lucid_uuid, precise_label))
+        lucid_uuid = lib.template_uuid(xenhost, lucid_label)
+        precise_uuid = lib.clone_template(xenhost, lucid_uuid, precise_label)
 
     logger.info('Setting parameters for Precise')
     xenhost.run(
