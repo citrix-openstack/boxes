@@ -23,8 +23,7 @@ This script will leave a box with
 
 Install and start a Debian-Like VM
 ==================================
-This does not require the above template installation step. To Install a 
-precise machine:
+To Install a precise machine:
 
     create_start_deblike root rootpassword yourxenserver.yourdomain precise \
     http://youraptcacher-ng.server:3142/archive.ubuntu.net/ubuntu \
