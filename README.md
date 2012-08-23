@@ -19,3 +19,11 @@ This script will leave a box with
   * bridge networking
   * dhcp on eth0
   * ext storage
+
+Add Ubuntu 12.04 to your Xenserver's templates
+==============================================
+This utility will create a template, called:
+"Ubuntu Precise Pangolin 12.04 (64-bit)", so that you can install that version
+on your XenServer/XCP:
+
+    add_precise_to_xs root rootpassword yourxenserver.yourdomain
