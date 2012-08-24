@@ -37,3 +37,10 @@ plugins to your xenserver. Existing files will not be overwritten.
 
     install_openstack_plugins root rootpassword yourxenserver.yourdomain
 
+Get the IP of your DevstacDomU
+==============================
+If you installed devstack on your xenserver, you can use this script to get
+the IP of that machine:
+
+    get_devstack_domu_ip root rootpassword yourxenserver.yourdomain
+
