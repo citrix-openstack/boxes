@@ -28,3 +28,12 @@ To Install a precise machine:
     create_start_deblike root rootpassword yourxenserver.yourdomain precise \
     http://youraptcacher-ng.server:3142/archive.ubuntu.net/ubuntu \
     http://yourwebserver/yourpreseed.cfg machinename    
+
+
+Install OpenStack Plugins to your XenServer
+===========================================
+This script will download the latest nova zipball, and copy the openstack
+plugins to your xenserver. Existing files will not be overwritten.
+
+    install_openstack_plugins root rootpassword yourxenserver.yourdomain
+

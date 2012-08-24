@@ -10,7 +10,8 @@ setup(
     entry_points = {
         'console_scripts': [
             'install_xcp_xapi = boxes.scripts.install_xcp_xapi:main',
-            'create_start_deblike = boxes.scripts.create_start_deblike:main'
+            'create_start_deblike = boxes.scripts.create_start_deblike:main',
+            'install_openstack_plugins = boxes.scripts.install_openstack_plugins:main'
         ]
     }
 )

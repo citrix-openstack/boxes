@@ -2,6 +2,7 @@ import re
 import os
 import lxml.html
 from fabric.api import put, run
+from fabric.contrib.files import exists
 from fabric.context_managers import settings
 from fabric.network import disconnect_all as fab_disconnect_all
 import time
@@ -45,6 +46,10 @@ class Server(object):
                 break
             except Exception as e:
                 time.sleep(timeout)
+
+    def exists(self, path):
+        with settings(**self._settings):
+            return exists(path)
 
 
 class WebServer(object):
