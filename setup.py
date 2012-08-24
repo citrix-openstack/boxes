@@ -5,7 +5,7 @@ setup(
     name='boxes',
     version='0.0',
     description='Automate your boxes',
-    packages=['boxes'],
+    packages=['boxes', 'boxes.scripts'],
     install_requires=['fabric', 'lxml'],
     entry_points = {
         'console_scripts': [
