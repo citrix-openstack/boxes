@@ -11,9 +11,7 @@ def extract_ip(result, iface):
     return parts[1].split(";")[0]
 
 
-def main():
-    user, password, host = sys.argv[1:]
-
+def command(user, password, host):
     xenhost = boxes.Server(host, user, password)
     xenhost.disable_known_hosts = True
 
@@ -22,4 +20,9 @@ def main():
         "xe vm-param-get uuid={uuid} param-name=networks --minimal".format(
         uuid=uuid))
 
-    print "IP of DevStackOSDomU is: {0}".format(extract_ip(network, 2))
+    return extract_ip(network, 2)
+
+
+def main():
+    user, password, host = sys.argv[1:]
+    print "IP of DevStackOSDomU is: {0}".format(command(user, password, host))
