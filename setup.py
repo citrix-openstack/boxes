@@ -13,6 +13,7 @@ setup(
             'create_start_deblike = boxes.scripts.create_start_deblike:main',
             'install_openstack_plugins = boxes.scripts.install_openstack_plugins:main',
             'get_devstack_domu_ip = boxes.scripts.get_devstack_domu_ip:main',
+            'start_devstack = boxes.scripts.start_devstack:main'
         ]
     }
 )
