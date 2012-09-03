@@ -5,20 +5,23 @@ Python Library to control your boxes - servers, pdus, etc
 
 Install XCP-XAPI
 ================
-WARNING: this script will wipe your sda7. For more info, see:
+A way of automatically install an xcp-xapi on top of a minimal Ubuntu 12.04
+installation. 
+
+WARNING: this script will wipe your sda7. The script is an automated execution
+of steps covered by:
 
 http://wiki.openstack.org/XenServer/Install/XcpXapiOnPrecise
 
-If you want to get started with XCP-XAPI, and you have an minimal Ubuntu
-installation, and an sda7 free to be destroyed:
+Usage:
 
     install_xcp_xapi root rootpassword yourhost.yourdomain
 
 This script will leave a box with 
-  * xcp-xapi
-  * bridge networking
-  * dhcp on eth0
-  * ext storage
+  * components: xcp-xapi
+    * bridge networking
+    * dhcp on eth0
+    * ext storage on sda7
 
 
 Install and start a Debian-Like VM
