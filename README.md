@@ -53,3 +53,14 @@ This small script emulates a browser, communicates with an APC PDU, to reboot
 the selected server. For more information:
 
     hard_reset -h
+
+Install a PXE file on your PXE server
+=====================================
+Put a file to a PXE server.
+
+    install_pxeboot_config -h
+
+Remove a PXE file from your PXE server
+======================================
+
+    remove_pxeboot_config -h

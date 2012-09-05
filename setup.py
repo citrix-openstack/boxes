@@ -16,6 +16,8 @@ setup(
             'start_devstack = boxes.scripts.start_devstack:main',
             'run_tempest_tests = boxes.scripts.run_tempest_tests:main',
             'hard_reset = boxes.scripts.hard_reset:main',
+            'install_pxeboot_config = boxes.scripts.pxeboot_config:install_main',
+            'remove_pxeboot_config = boxes.scripts.pxeboot_config:remove_main',
         ]
     }
 )
