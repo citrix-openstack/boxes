@@ -47,3 +47,9 @@ the IP of that machine. For more information, see:
 
     get_devstack_domu_ip -h
 
+Immediate Reboot your machine
+=============================
+This small script emulates a browser, communicates with an APC PDU, to reboot
+the selected server. For more information:
+
+    hard_reset -h
