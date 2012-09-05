@@ -49,6 +49,11 @@ the IP of that machine. For more information, see:
 
 Immediate Reboot your machine
 =============================
+you will need to do:
+
+    pip install mechanize
+    pip install cssselect
+
 This small script emulates a browser, communicates with an APC PDU, to reboot
 the selected server. For more information:
 
