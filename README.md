@@ -43,7 +43,7 @@ plugins to your xenserver. Existing files will not be overwritten.
 Get the IP of your DevstackDomU
 ===============================
 If you installed devstack on your xenserver, you can use this script to get
-the IP of that machine:
+the IP of that machine. For more information, see:
 
-    get_devstack_domu_ip root rootpassword yourxenserver.yourdomain
+    get_devstack_domu_ip -h
 

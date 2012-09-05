@@ -34,5 +34,14 @@ def command(user, password, host):
 
 
 def main():
-    user, password, host = sys.argv[1:]
+    import argparse
+    parser = argparse.ArgumentParser(description='Get the devstack domU IP')
+    parser.add_argument('host', help='XenServer host name')
+    parser.add_argument(
+        '--password', help='Password for XenServer', default=None)
+    parser.add_argument(
+        '--user', help='User for XenServer', default='root')
+
+    args = parser.parse_args()
+    user, password, host = args.user, args.password, args.host
     print "IP of DevStackOSDomU is: {0}".format(command(user, password, host))
