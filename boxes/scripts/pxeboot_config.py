@@ -14,7 +14,7 @@ def install_pxeboot_config(user, host, mac, pxe_file):
     pxe_server.run('chmod +r {0}'.format(remote_file))
 
 
-def remove_pxeboot_config(user, host, mac, pxe_file):
+def remove_pxeboot_config(user, host, mac):
     pxe_server = boxes.Server(host, user, None)
     remote_file = get_remote_pxe_filename(mac)
     pxe_server.run('rm -f {0}'.format(remote_file))
@@ -37,8 +37,6 @@ def remove_main():
     parser.add_argument('user', help='User for PXE Server')
     parser.add_argument('host', help='PXE Server')
     parser.add_argument('mac', help='Mac address (xx:xx:xx:xx:xx:xx)')
-    parser.add_argument('pxe_file',
-        help='the pxe file you want to remove from the server')
     args = parser.parse_args()
-    remove_pxeboot_config(args.user, args.host, args.mac, args.pxe_file)
+    remove_pxeboot_config(args.user, args.host, args.mac)
     boxes.disconnect_all()
