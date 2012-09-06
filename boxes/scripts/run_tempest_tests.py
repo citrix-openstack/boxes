@@ -34,13 +34,14 @@ def command(xenhost, xenpass, devstackpass, tempest_params):
 
     disconnect_all()
 
+
 def main():
     parser = argparse.ArgumentParser(description='run tempest tests')
     parser.add_argument('xenhost', help='XenServer host')
     parser.add_argument('xenpass', help='XenServer password')
     parser.add_argument('devstackpass', help='Devstack password')
-    parser.add_argument('--TempestParams', help='Additional tempest params',
-        default='')
+    parser.add_argument(
+        '--TempestParams', help='Additional tempest params', default='')
 
     args = parser.parse_args()
     command(args.xenhost, args.xenpass, args.devstackpass, args.TempestParams)

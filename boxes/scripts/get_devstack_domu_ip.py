@@ -27,6 +27,7 @@ def get_devstack_ip(xenhost):
 
     return extract_ip(network, 2)
 
+
 def command(user, password, host):
     xenhost = boxes.Server(host, user, password)
     xenhost.disable_known_hosts = True

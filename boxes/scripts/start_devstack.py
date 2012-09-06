@@ -56,7 +56,8 @@ def is_run_sh_succeeded(devstack):
 
 
 def rabbit_is_failing(devstack):
-    rabbit_status = devstack.run("sudo /etc/init.d/rabbitmq-server status || true")
+    rabbit_status = devstack.run(
+        "sudo /etc/init.d/rabbitmq-server status || true")
     return "Error: unable to connect" in rabbit_status
 
 

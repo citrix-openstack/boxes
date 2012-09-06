@@ -25,7 +25,8 @@ def install_main():
     parser.add_argument('user', help='User for PXE Server')
     parser.add_argument('host', help='PXE Server')
     parser.add_argument('mac', help='Mac address (xx:xx:xx:xx:xx:xx)')
-    parser.add_argument('pxe_file',
+    parser.add_argument(
+        'pxe_file',
         help='the pxe file you want to put on the server')
     args = parser.parse_args()
     install_pxeboot_config(args.user, args.host, args.mac, args.pxe_file)

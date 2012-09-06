@@ -37,12 +37,15 @@ def main():
         description="Hard reset a machine by controlling the pdu")
     parser.add_argument("pdu_user", help="The user to access APC PDU")
     parser.add_argument("pdu_pass", help="Password for your user")
-    parser.add_argument("pdu_address",
+    parser.add_argument(
+        "pdu_address",
         help="Address to your PDU (http://your.pdus.ip.address)")
-    parser.add_argument("machine_label",
+    parser.add_argument(
+        "machine_label",
         help="The label that identifies your machine within the PDU")
     parser.add_argument("machine_port", help="pdu port for the machine")
     args = parser.parse_args()
 
-    hard_reset(args.pdu_user, args.pdu_pass, args.pdu_address,
+    hard_reset(
+        args.pdu_user, args.pdu_pass, args.pdu_address,
         args.machine_label, args.machine_port)

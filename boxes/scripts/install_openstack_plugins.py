@@ -52,7 +52,7 @@ def main():
 
     xenhost = Server(host, user, password)
     xenhost.disable_known_hosts = True
-    
+
     tgt_dir = get_xapi_plugin_target_dir(xenhost)
     logger.info("Remote directory: %s", tgt_dir)
 

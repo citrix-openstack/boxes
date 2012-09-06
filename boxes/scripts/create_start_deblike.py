@@ -6,7 +6,10 @@ from boxes.scripts import lib
 
 
 def main():
-    user, password, host, release_name, install_repo, preseed_file, vmname = sys.argv[1:]
+    (
+        user, password, host, release_name,
+        install_repo, preseed_file, vmname
+    ) = sys.argv[1:]
 
     template = 'Ubuntu Lucid Lynx 10.04 (64-bit)'
 
@@ -33,7 +36,8 @@ def main():
         .format(pool))
 
     vdi = xenhost.run(
-        'xe vdi-create name-label="boot" sr-uuid={0} type=system virtual-size=8GiB'
+        'xe vdi-create name-label="boot" '
+        'sr-uuid={0} type=system virtual-size=8GiB'
         .format(sr))
 
     xenhost.run(
@@ -49,7 +53,8 @@ def main():
         .format(vm, release_name))
 
     domain = 'somedomain'
-    xenhost.run(textwrap.dedent(r"""
+    xenhost.run(
+        textwrap.dedent(r"""
         xe vm-param-set uuid={0} PV-args="-- quiet console=hvc0 \
         partman/default_filesystem=ext3 \
         locale=en_GB \
@@ -59,9 +64,8 @@ def main():
         netcfg/get_hostname={1} \
         netcfg/get_domain={2} \
         auto url={3}"
-        """
-        .format(vm, vmname, domain, preseed_file)))
-    
+        """.format(vm, vmname, domain, preseed_file)))
+
     bridge_name = 'xenbr0'
 
     net = xenhost.run(
