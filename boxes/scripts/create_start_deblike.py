@@ -63,8 +63,10 @@ def main():
         netcfg/choose_interface=eth0 \
         netcfg/get_hostname={1} \
         netcfg/get_domain={2} \
+        mirror/udeb/suite={4} \
+        mirror/suite={4} \
         auto url={3}"
-        """.format(vm, vmname, domain, preseed_file)))
+        """.format(vm, vmname, domain, preseed_file, release_name)))
 
     bridge_name = 'xenbr0'
 
