@@ -26,11 +26,14 @@ def extract_xapi_plugins(zipfilename, tempdir):
 
 
 def get_xapi_plugin_target_dir(xenhost):
-    tgt_dir = '/usr/lib/xcp/plugins'
-    if not xenhost.exists(tgt_dir):
-        raise Exception
+    dirs_to_search = [
+        '/usr/lib/xcp/plugins',
+        '/etc/xapi.d/plugins'
+    for tgt_dir in dirs_to_search:
+        if xenhost.exists(tgt_dir):
+            return tgt_dir
 
-    return tgt_dir
+    raise Exception
 
 
 def main():
