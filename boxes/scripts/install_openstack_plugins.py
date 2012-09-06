@@ -29,6 +29,7 @@ def get_xapi_plugin_target_dir(xenhost):
     dirs_to_search = [
         '/usr/lib/xcp/plugins',
         '/etc/xapi.d/plugins'
+    ]
     for tgt_dir in dirs_to_search:
         if xenhost.exists(tgt_dir):
             return tgt_dir
