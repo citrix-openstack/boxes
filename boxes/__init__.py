@@ -1,6 +1,5 @@
 import re
 import os
-import lxml.html
 from fabric.api import put, run
 from fabric.contrib.files import exists
 from fabric.context_managers import settings
@@ -87,6 +86,7 @@ class Pdu(object):
         self.browser = browser
 
     def set_checkbox(self, label):
+        import lxml.html
         body = self.browser.response().read()
         html = lxml.html.fromstring(body)
         regex = r".*%s\s+" % label
