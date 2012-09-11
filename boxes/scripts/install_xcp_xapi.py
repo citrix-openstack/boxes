@@ -5,8 +5,10 @@ import time
 install_commands = """
 apt-get update
 apt-get -y dist-upgrade
-echo "xcp-networkd    xcp-xapi/networking_type        select  bridge" |  debconf-set-selections
-dpkg-divert --add --rename --divert /etc/grub.d/09_linux_xen /etc/grub.d/20_linux_xen
+echo "xcp-networkd    xcp-xapi/networking_type        select  bridge" | \
+debconf-set-selections
+dpkg-divert --add --rename --divert \
+/etc/grub.d/09_linux_xen /etc/grub.d/20_linux_xen
 apt-get install -y xcp-xapi
 """
 

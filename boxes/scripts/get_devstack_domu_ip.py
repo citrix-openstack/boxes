@@ -7,7 +7,8 @@ def extract_ip(networks_line, iface):
     Extract the ip from a xe vm-param-get --param-name=networks line
     Returns empty string on failure
 
-    >>> extract_ip("1/ip: 10.0.0.3; 3/ip: 172.24.4.10; 2/ip: 10.219.2.199; 1/ip: 10.255.255.255", 2)
+    >>> extract_ip("1/ip: 10.0.0.3; 3/ip: 172.24.4.10; 2/ip: 10.219.2.199; \
+    1/ip: 10.255.255.255", 2)
     '10.219.2.199'
     >>> extract_ip(None, 2)
     >>> extract_ip(' ', 2)
@@ -22,7 +23,8 @@ def extract_ip(networks_line, iface):
 def get_devstack_ip(xenhost):
     uuid = xenhost.run("xe vm-list name-label=DevStackOSDomU --minimal")
     if not uuid:
-        uuid = xenhost.run("xe vm-list name-label=DevStackComputeSlave --minimal")
+        uuid = xenhost.run(
+            "xe vm-list name-label=DevStackComputeSlave --minimal")
 
     network = xenhost.run(
         "xe vm-param-get uuid={uuid} param-name=networks --minimal".format(

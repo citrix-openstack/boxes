@@ -27,7 +27,8 @@ def command(xenhost, xenpass, devstackpass, tempest_params):
     devstack.run(
         "sudo pip install -U nose || true")
     devstack.run(
-        "rm -f /opt/stack/tempest/tempest/tests/compute/test_console_output.py")
+        "rm -f "
+        "/opt/stack/tempest/tempest/tests/compute/test_console_output.py")
     devstack.run(
         """nosetests %s -v tempest -e "test_change_server_password" """
         % tempest_params)
