@@ -49,10 +49,9 @@ the IP of that machine. For more information, see:
 
 Immediate Reboot your machine
 =============================
-you will need to do:
+you will need to install additional dependencies to remote your PDU:
 
-    pip install mechanize
-    pip install cssselect
+    install_pdu_requirements
 
 This small script emulates a browser, communicates with an APC PDU, to reboot
 the selected server. For more information:

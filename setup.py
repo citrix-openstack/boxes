@@ -6,7 +6,10 @@ setup(
     version='0.0',
     description='Automate your boxes',
     packages=['boxes', 'boxes.scripts'],
-    install_requires=['fabric', 'lxml'],
+    install_requires=['fabric'],
+    package_data = {
+        'boxes': ['pdu-requirements.txt']
+    },
     entry_points = {
         'console_scripts': [
             'install_xcp_xapi = boxes.scripts.install_xcp_xapi:main',
@@ -18,6 +21,7 @@ setup(
             'hard_reset = boxes.scripts.hard_reset:main',
             'install_pxeboot_config = boxes.scripts.pxeboot_config:install_main',
             'remove_pxeboot_config = boxes.scripts.pxeboot_config:remove_main',
+            'install_pdu_requirements = boxes.scripts.install_pdu_requirements:main'
         ]
     }
 )
