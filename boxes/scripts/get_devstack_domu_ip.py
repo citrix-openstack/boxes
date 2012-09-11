@@ -21,6 +21,9 @@ def extract_ip(networks_line, iface):
 
 def get_devstack_ip(xenhost):
     uuid = xenhost.run("xe vm-list name-label=DevStackOSDomU --minimal")
+    if not uuid:
+        uuid = xenhost.run("xe vm-list name-label=DevStackComputeSlave --minimal")
+
     network = xenhost.run(
         "xe vm-param-get uuid={uuid} param-name=networks --minimal".format(
         uuid=uuid))
