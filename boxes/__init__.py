@@ -1,6 +1,6 @@
 import re
 import os
-from fabric.api import put, run
+from fabric.api import put, run, get
 from fabric.contrib.files import exists
 from fabric.context_managers import settings
 from fabric.network import disconnect_all as fab_disconnect_all
@@ -30,6 +30,10 @@ class Server(object):
     def put(self, local_path, remote_path):
         with settings(**self._settings):
             put(local_path, remote_path)
+
+    def get(self, remote_path, local_path):
+        with settings(**self._settings):
+            get(remote_path, local_path)
 
     def run(self, command):
         with settings(**self._settings):
