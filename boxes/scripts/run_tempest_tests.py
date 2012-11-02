@@ -8,7 +8,7 @@ from boxes.scripts.get_devstack_domu_ip import get_devstack_ip
 
 
 def command(xenhost, xenpass, devstackpass, tempest_params, tempest_repo,
-            tempest_branch, no_clone, devstack_ip):
+            tempest_branch, no_clone, devstack_ip, suite):
 
     if not devstack_ip:
         xen = Server(xenhost, 'root', xenpass)
@@ -53,8 +53,8 @@ def command(xenhost, xenpass, devstackpass, tempest_params, tempest_repo,
         "rm -f "
         "/opt/stack/tempest/tempest/tests/compute/test_console_output.py")
     devstack.run(
-        """nosetests %s -v tempest -e "test_change_server_password" """
-        % tempest_params)
+        """cd /opt/stack/tempest && nosetests %s %s -v -e "test_change_server_password" """
+        % (suite, tempest_params))
 
     disconnect_all()
 
@@ -64,7 +64,11 @@ def edit_ini_file(ini_file):
     config = ConfigParser.RawConfigParser()
     config.read(ini_file)
 
-    config.set('compute', 'live_migration_block_available', 'true')
+    config.set('compute', 'use_block_migration_for_live_migration', 'true')
+    config.set('compute', 'live_migration_available', 'true')
+    #config.set('compute', 'network_for_ssh', 'private')
+    #config.set('compute', 'flavor_ref', '2')
+    #config.set('compute', 'ssh_user', 'cirros')
 
     with open(ini_file, 'wb') as modified_config:
         config.write(modified_config)
@@ -76,6 +80,8 @@ def main():
     parser.add_argument('xenhost', help='XenServer host')
     parser.add_argument('xenpass', help='XenServer password')
     parser.add_argument('devstackpass', help='Devstack password')
+    parser.add_argument(
+        '--suite', help='Suite to run', default='tempest')
     parser.add_argument(
         '--TempestParams', help='Additional tempest params', default='')
     parser.add_argument(
@@ -95,4 +101,4 @@ def main():
     command(
         args.xenhost, args.xenpass, args.devstackpass,
         args.TempestParams, args.tempestRepo, args.tempestBranch, args.noClone,
-        args.devStackIp)
+        args.devStackIp, args.suite)
