@@ -21,7 +21,8 @@ setup(
             'hard_reset = boxes.scripts.hard_reset:main',
             'install_pxeboot_config = boxes.scripts.pxeboot_config:install_main',
             'remove_pxeboot_config = boxes.scripts.pxeboot_config:remove_main',
-            'install_pdu_requirements = boxes.scripts.install_pdu_requirements:main'
+            'install_pdu_requirements = boxes.scripts.install_pdu_requirements:main',
+            'wait_for_ssh = boxes.scripts.wait_for_ssh:main'
         ]
     }
 )

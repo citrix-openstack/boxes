@@ -6,6 +6,10 @@ from fabric.context_managers import settings
 from fabric.network import disconnect_all as fab_disconnect_all
 import time
 import socket
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 
 def disconnect_all():
@@ -39,15 +43,18 @@ class Server(object):
         with settings(**self._settings):
             return run(command, shell=False)
 
-    def wait_for_ssh(self):
-        timeout = 10
+    def wait_for_ssh(self, timeout=10):
+        timeout = timeout
         while True:
             try:
+                logger.info("Trying to tcp connect to ssh server...")
                 socket.create_connection((self.host, 22), timeout=timeout)
                 # A final sleep
+                logger.info("tcp connection succeeded, additional delay")
                 time.sleep(timeout)
                 break
             except Exception as e:
+                logger.info("tcp connection failed, waiting")
                 time.sleep(timeout)
 
     def exists(self, path):
