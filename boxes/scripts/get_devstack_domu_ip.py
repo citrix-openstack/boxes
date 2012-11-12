@@ -50,4 +50,4 @@ def main():
 
     args = parser.parse_args()
     user, password, host = args.user, args.password, args.host
-    print "IP of DevStackOSDomU is: {0}".format(command(user, password, host))
+    print command(user, password, host)
