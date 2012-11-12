@@ -68,3 +68,14 @@ Remove a PXE file from your PXE server
 ======================================
 
     remove_pxeboot_config -h
+
+Run exercise.sh
+===============
+
+    run_exercise -h
+
+Restart a devstack service
+==========================
+Send Ctrl+C, Ctrl+P, and Enter to the given devstack screen.
+
+    restart_devstack_service -h
