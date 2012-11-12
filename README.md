@@ -79,3 +79,12 @@ Restart a devstack service
 Send Ctrl+C, Ctrl+P, and Enter to the given devstack screen.
 
     restart_devstack_service -h
+
+Set extra config
+================
+Read some bytes in the standard input, and append those lines to the file
+specified, on the remote system.
+
+    set_extra_config -h
+    cat /dev/null | set_extra_config devstackip /etc/cinder/cinder.conf
+    echo "someoption=True" | set_extra_config devstackip /etc/cinder/cinder.conf

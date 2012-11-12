@@ -25,7 +25,8 @@ setup(
             'wait_for_ssh = boxes.scripts.wait_for_ssh:main',
             'prepare_xs_for_devstack_ci = boxes.scripts.prepare_xs_for_devstack_ci:main',
             'run_exercise = boxes.scripts.run_exercise:main',
-            'restart_devstack_service = boxes.scripts.restart_devstack_service:main'
+            'restart_devstack_service = boxes.scripts.restart_devstack_service:main',
+            'set_extra_config = boxes.scripts.set_extra_config:main'
         ]
     }
 )
