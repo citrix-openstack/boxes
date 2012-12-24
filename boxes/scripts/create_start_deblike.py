@@ -7,7 +7,8 @@ from boxes import Server, disconnect_all
 from boxes.scripts import lib
 
 
-def command(user, password, host, release_name, install_repo, preseed_file, vmname):
+def command(user, password, host, release_name, install_repo, preseed_file,
+            vmname, hddsize, mac):
     template = 'Ubuntu Lucid Lynx 10.04 (64-bit)'
 
     xenhost = Server(host, user, password)
@@ -34,8 +35,8 @@ def command(user, password, host, release_name, install_repo, preseed_file, vmna
 
     vdi = xenhost.run(
         'xe vdi-create name-label="boot" '
-        'sr-uuid={0} type=system virtual-size=8GiB'
-        .format(sr))
+        'sr-uuid={0} type=system virtual-size={1}GiB'
+        .format(sr, hddsize))
 
     xenhost.run(
         'xe vbd-create vm-uuid={0} vdi-uuid={1} device=0 bootable=true'
@@ -71,9 +72,11 @@ def command(user, password, host, release_name, install_repo, preseed_file, vmna
         'xe network-list bridge={0} --minimal'
         .format(bridge_name))
 
+    additional_net_options = "mac={0}".format(mac) if mac else ""
+
     xenhost.run(
-        'xe vif-create network-uuid={0} vm-uuid={1} device=0'
-        .format(net, vm))
+        'xe vif-create network-uuid={0} vm-uuid={1} device=0 {2}'
+        .format(net, vm, additional_net_options))
 
     xenhost.run(
         'xe vm-start uuid={0}'
@@ -91,13 +94,18 @@ def main():
     parser.add_argument('install_repo', help='Install repository to use')
     parser.add_argument('preseed_file', help='Preseed file to use')
     parser.add_argument('vmname', help='Name for the virtual machine')
+    parser.add_argument(
+        '--hddsize', help='Disk size for vm in Gigabytes', default="8")
+    parser.add_argument(
+        '--mac', help='MAC address for vm', default="")
 
     args = parser.parse_args()
 
     try:
         command(
             args.user, args.password, args.host, args.release_name,
-            args.install_repo, args.preseed_file, args.vmname
+            args.install_repo, args.preseed_file, args.vmname, args.hddsize,
+            args.mac
         )
     finally:
         disconnect_all()
