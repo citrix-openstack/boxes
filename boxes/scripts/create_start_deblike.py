@@ -3,7 +3,7 @@ import logging
 
 import textwrap
 
-from boxes import Server
+from boxes import Server, disconnect_all
 from boxes.scripts import lib
 
 
@@ -94,7 +94,10 @@ def main():
 
     args = parser.parse_args()
 
-    command(
-        args.user, args.password, args.host, args.release_name,
-        args.install_repo, args.preseed_file, args.vmname
-    )
+    try:
+        command(
+            args.user, args.password, args.host, args.release_name,
+            args.install_repo, args.preseed_file, args.vmname
+        )
+    finally:
+        disconnect_all()
