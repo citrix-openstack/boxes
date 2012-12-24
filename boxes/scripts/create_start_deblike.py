@@ -1,16 +1,13 @@
-import sys
+import argparse
+import logging
+
 import textwrap
 
 from boxes import Server
 from boxes.scripts import lib
 
 
-def main():
-    (
-        user, password, host, release_name,
-        install_repo, preseed_file, vmname
-    ) = sys.argv[1:]
-
+def command(user, password, host, release_name, install_repo, preseed_file, vmname):
     template = 'Ubuntu Lucid Lynx 10.04 (64-bit)'
 
     xenhost = Server(host, user, password)
@@ -81,3 +78,23 @@ def main():
     xenhost.run(
         'xe vm-start uuid={0}'
         .format(vm))
+
+
+def main():
+    logging.basicConfig(level=logging.INFO)
+    parser = argparse.ArgumentParser(
+        description='Install a debian -like vm in XenServer')
+    parser.add_argument('user', help='XenServer user')
+    parser.add_argument('password', help='XenServer password')
+    parser.add_argument('host', help='Host')
+    parser.add_argument('release_name', help='Codename for the VM (precise)')
+    parser.add_argument('install_repo', help='Install repository to use')
+    parser.add_argument('preseed_file', help='Preseed file to use')
+    parser.add_argument('vmname', help='Name for the virtual machine')
+
+    args = parser.parse_args()
+
+    command(
+        args.user, args.password, args.host, args.release_name,
+        args.install_repo, args.preseed_file, args.vmname
+    )
