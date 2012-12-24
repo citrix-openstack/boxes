@@ -18,6 +18,10 @@ def command(user, password, host, release_name, install_repo, preseed_file,
 
     vm = lib.clone_template(xenhost, template_uuid, vmname)
 
+    xenhost.put(preseed_file, "/opt/xensource/www/{0}.preseed".format(vm))
+
+    preseed_url = "{0}/{1}.preseed".format(host, vm)
+
     xenhost.run(
         'xe vm-param-set uuid={0} is-a-template=false'
         .format(vm))
@@ -64,7 +68,7 @@ def command(user, password, host, release_name, install_repo, preseed_file,
         mirror/udeb/suite={4} \
         mirror/suite={4} \
         auto url={3}"
-        """.format(vm, vmname, domain, preseed_file, release_name)))
+        """.format(vm, vmname, domain, preseed_url, release_name)))
 
     bridge_name = 'xenbr0'
 
