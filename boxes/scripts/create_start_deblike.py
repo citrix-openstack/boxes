@@ -7,11 +7,12 @@ from boxes import Server, disconnect_all
 from boxes.scripts import lib
 
 
-def command(user, password, host, suite, install_repo, preseed_file,
-            vmname, hddsize, mac, fstype, usrpwd, packages, timezone, ntpserver, username):
+def command(user, xspass, host, suite, install_repo, preseed_file,
+            vmname, hddsize, mac, fstype, usrpwd, packages, timezone, ntpserver, username,
+            httpmirrorhost, httpmirrordirectory):
     template = 'Ubuntu Lucid Lynx 10.04 (64-bit)'
 
-    xenhost = Server(host, user, password)
+    xenhost = Server(host, user, xspass)
     xenhost.disable_known_hosts = True
 
     template_uuid = lib.template_uuid(xenhost, template)
@@ -72,8 +73,11 @@ def command(user, password, host, suite, install_repo, preseed_file,
         time/zone={8} \
         clock-setup/ntp-server={9} \
         passwd/username={10} \
+        mirror/http/hostname={11} \
+        mirror/http/directory={12} \
         auto url={3}"
-        """.format(vm, vmname, domain, preseed_url, suite, fstype, usrpwd, packages, timezone, ntpserver, username)))
+        """.format(vm, vmname, domain, preseed_url, suite, fstype, usrpwd, packages, timezone, ntpserver, username,
+            httpmirrorhost, httpmirrordirectory)))
 
     bridge_name = 'xenbr0'
 
@@ -96,9 +100,7 @@ def main():
     logging.basicConfig(level=logging.INFO)
     parser = argparse.ArgumentParser(
         description='Install a debian -like vm in XenServer')
-    parser.add_argument('password', help='XenServer password')
     parser.add_argument('host', help='XenServer host')
-    parser.add_argument('install_repo', help='Install repository to use')
     parser.add_argument('preseed_file', help='Preseed file to use')
     parser.add_argument('vmname', help='Name for the virtual machine')
     parser.add_argument('usrpwd', help='Password for the user on the new system')
@@ -111,6 +113,8 @@ def main():
     parser.add_argument(
         '--xsuser', help='Username for XenServer (root)', default="root")
     parser.add_argument(
+        '--xspass', help='Password for XenServer')
+    parser.add_argument(
         '--packages', help='Comma separated list of additional packages', default="")
     parser.add_argument(
         '--timezone', help='Timezone for the new system (Europe/London)', default="Europe/London")
@@ -120,17 +124,34 @@ def main():
         '--username', help='Name for the user on the new system (ubuntu)', default="ubuntu")
     parser.add_argument(
         '--suite', help='Suite to install (precise)', default="precise")
-
-
+    parser.add_argument(
+        '--install_repo', help='Distro url used by XenServer (http://archive.ubuntu.com/ubuntu)',
+        default="http://archive.ubuntu.com/ubuntu")
+    parser.add_argument(
+        '--httpmirrorhost', help='http mirror host used during installation (archive.ubuntu.com)',
+        default="archive.ubuntu.com")
+    parser.add_argument(
+        '--httpmirrordirectory', help='http mirror directory used during installation (/ubuntu)',
+        default="/ubuntu")
+    parser.add_argument(
+        '--aptcachernghost', help='A host that runs apt-cacher-ng - to speed up installation. It will override httpmirrorhost, install_repo',
+        default="")
 
     args = parser.parse_args()
 
+    if args.aptcachernghost:
+        httpmirrorhost = args.aptcachernghost + ":3142"
+        install_repo = "http://" + httpmirrorhost + "/archive.ubuntu.com" + args.httpmirrordirectory
+    else:
+        httpmirrorhost = args.httpmirrorhost
+        install_repo = args.install_repo
+
     try:
         command(
-            args.xsuser, args.password, args.host, args.suite,
-            args.install_repo, args.preseed_file, args.vmname, args.hddsize,
+            args.xsuser, args.xspass, args.host, args.suite,
+            install_repo, args.preseed_file, args.vmname, args.hddsize,
             args.mac, args.fstype, args.usrpwd, args.packages, args.timezone,
-            args.ntpserver, args.username
+            args.ntpserver, args.username, httpmirrorhost, args.httpmirrordirectory
         )
     finally:
         disconnect_all()

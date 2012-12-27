@@ -86,17 +86,9 @@ d-i netcfg/wireless_wep string
 # If you select ftp, the mirror/country string does not need to be set.
 #d-i mirror/protocol string ftp
 d-i mirror/country string manual
-# In-house
-d-i mirror/http/hostname string copper.eng.hq.xensource.com:3142
-# For the US mirror:
-#d-i mirror/http/hostname string mirror.anl.gov
-# Default value
+# BOOTPARAM
 #d-i mirror/http/hostname string archive.ubuntu.com
-# In-house
-d-i mirror/http/directory string /ubuntu
-# For the US mirror:
-#d-i mirror/http/directory string /pub/ubuntu
-# Default value
+# BOOTPARAM
 #d-i mirror/http/directory string /ubuntu
 d-i mirror/http/proxy string
 

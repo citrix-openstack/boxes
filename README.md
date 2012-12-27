@@ -28,9 +28,8 @@ Install and start a Debian-Like VM
 ==================================
 To Install a precise machine:
 
-    create_start_deblike rootpassword yourxenserver.yourdomain \
-    http://youraptcacher-ng.server:3142/archive.ubuntu.net/ubuntu \
-    yourpreseed.cfg machinename username    
+    create_start_deblike yourxenserver.yourdomain \
+    yourpreseed.cfg machinename password    
 
 For further options, and default values, type:
 
