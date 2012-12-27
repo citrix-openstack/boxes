@@ -9,7 +9,7 @@ from boxes.scripts import lib
 
 def command(user, xspass, host, suite, install_repo, preseed_file,
             vmname, hddsize, mac, fstype, usrpwd, packages, timezone, ntpserver, username,
-            httpmirrorhost, httpmirrordirectory):
+            httpmirrorhost, httpmirrordirectory, memsize):
     template = 'Ubuntu Lucid Lynx 10.04 (64-bit)'
 
     xenhost = Server(host, user, xspass)
@@ -30,6 +30,11 @@ def command(user, xspass, host, suite, install_repo, preseed_file,
     xenhost.run(
         'xe vm-param-set uuid={0} name-description="{1}"'
         .format(vm, vmname))
+
+    xenhost.run(
+        'xe vm-memory-limits-set static-min={0}MiB static-max={0}MiB dynamic-min={0}MiB dynamic-max={0}MiB uuid={1}'
+        .format(memsize, vm))
+
 
     pool = xenhost.run(
         'xe pool-list --minimal')
@@ -136,6 +141,10 @@ def main():
     parser.add_argument(
         '--aptcachernghost', help='A host that runs apt-cacher-ng - to speed up installation. It will override httpmirrorhost, install_repo',
         default="")
+    parser.add_argument(
+        '--memsize', help='Memory size in MiB (2048)',
+        default="2048")
+
 
     args = parser.parse_args()
 
@@ -151,7 +160,8 @@ def main():
             args.xsuser, args.xspass, args.host, args.suite,
             install_repo, args.preseed_file, args.vmname, args.hddsize,
             args.mac, args.fstype, args.usrpwd, args.packages, args.timezone,
-            args.ntpserver, args.username, httpmirrorhost, args.httpmirrordirectory
+            args.ntpserver, args.username, httpmirrorhost, args.httpmirrordirectory,
+            args.memsize
         )
     finally:
         disconnect_all()
