@@ -7,8 +7,8 @@ from boxes import Server, disconnect_all
 from boxes.scripts import lib
 
 
-def command(user, password, host, release_name, install_repo, preseed_file,
-            vmname, hddsize, mac):
+def command(user, password, host, suite, install_repo, preseed_file,
+            vmname, hddsize, mac, fstype, usrpwd, packages, timezone, ntpserver, username):
     template = 'Ubuntu Lucid Lynx 10.04 (64-bit)'
 
     xenhost = Server(host, user, password)
@@ -52,23 +52,28 @@ def command(user, password, host, release_name, install_repo, preseed_file,
 
     xenhost.run(
         'xe vm-param-set uuid={0} other-config:debian-release={1}'
-        .format(vm, release_name))
+        .format(vm, suite))
 
     domain = 'somedomain'
     xenhost.run(
         textwrap.dedent(r"""
         xe vm-param-set uuid={0} PV-args="-- quiet console=hvc0 \
-        partman/default_filesystem=ext3 \
         locale=en_GB \
-        console-setup/ask_detect=false \
         keyboard-configuration/layoutcode=gb \
         netcfg/choose_interface=eth0 \
         netcfg/get_hostname={1} \
         netcfg/get_domain={2} \
-        mirror/udeb/suite={4} \
         mirror/suite={4} \
+        mirror/udeb/suite={4} \
+        partman/default_filesystem={5} \
+        passwd/user-password={6} \
+        passwd/user-password-again={6} \
+        pkgsel/include={7} \
+        time/zone={8} \
+        clock-setup/ntp-server={9} \
+        passwd/username={10} \
         auto url={3}"
-        """.format(vm, vmname, domain, preseed_url, release_name)))
+        """.format(vm, vmname, domain, preseed_url, suite, fstype, usrpwd, packages, timezone, ntpserver, username)))
 
     bridge_name = 'xenbr0'
 
@@ -91,25 +96,41 @@ def main():
     logging.basicConfig(level=logging.INFO)
     parser = argparse.ArgumentParser(
         description='Install a debian -like vm in XenServer')
-    parser.add_argument('user', help='XenServer user')
     parser.add_argument('password', help='XenServer password')
-    parser.add_argument('host', help='Host')
-    parser.add_argument('release_name', help='Codename for the VM (precise)')
+    parser.add_argument('host', help='XenServer host')
     parser.add_argument('install_repo', help='Install repository to use')
     parser.add_argument('preseed_file', help='Preseed file to use')
     parser.add_argument('vmname', help='Name for the virtual machine')
+    parser.add_argument('usrpwd', help='Password for the user on the new system')
     parser.add_argument(
-        '--hddsize', help='Disk size for vm in Gigabytes', default="8")
+        '--hddsize', help='Disk size for vm in Gigabytes (8)', default="8")
     parser.add_argument(
         '--mac', help='MAC address for vm', default="")
+    parser.add_argument(
+        '--fstype', help='Type of filesystem (ext4)', default="ext4")
+    parser.add_argument(
+        '--xsuser', help='Username for XenServer (root)', default="root")
+    parser.add_argument(
+        '--packages', help='Comma separated list of additional packages', default="")
+    parser.add_argument(
+        '--timezone', help='Timezone for the new system (Europe/London)', default="Europe/London")
+    parser.add_argument(
+        '--ntpserver', help='NTP server to use (0.us.pool.ntp.org)', default="0.us.pool.ntp.org")
+    parser.add_argument(
+        '--username', help='Name for the user on the new system (ubuntu)', default="ubuntu")
+    parser.add_argument(
+        '--suite', help='Suite to install (precise)', default="precise")
+
+
 
     args = parser.parse_args()
 
     try:
         command(
-            args.user, args.password, args.host, args.release_name,
+            args.xsuser, args.password, args.host, args.suite,
             args.install_repo, args.preseed_file, args.vmname, args.hddsize,
-            args.mac
+            args.mac, args.fstype, args.usrpwd, args.packages, args.timezone,
+            args.ntpserver, args.username
         )
     finally:
         disconnect_all()

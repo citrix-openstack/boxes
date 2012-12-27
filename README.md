@@ -28,9 +28,13 @@ Install and start a Debian-Like VM
 ==================================
 To Install a precise machine:
 
-    create_start_deblike root rootpassword yourxenserver.yourdomain precise \
+    create_start_deblike rootpassword yourxenserver.yourdomain \
     http://youraptcacher-ng.server:3142/archive.ubuntu.net/ubuntu \
-    yourpreseed.cfg machinename    
+    yourpreseed.cfg machinename username    
+
+For further options, and default values, type:
+
+    create_start_deblike --help
 
 
 Install OpenStack Plugins to your XenServer
