@@ -9,7 +9,7 @@ from boxes.scripts import lib
 
 def command(user, xspass, host, suite, install_repo, preseed_file,
             vmname, hddsize, mac, fstype, usrpwd, packages, timezone, ntpserver, username,
-            httpmirrorhost, httpmirrordirectory, memsize, bootoptions):
+            httpmirrorhost, httpmirrordirectory, memsize, bootoptions, httpmirrorproxy):
     template = 'Ubuntu Lucid Lynx 10.04 (64-bit)'
 
     xenhost = Server(host, user, xspass)
@@ -55,6 +55,11 @@ def command(user, xspass, host, suite, install_repo, preseed_file,
     xenhost.run(
         'xe vm-param-set uuid={0} other-config:install-repository={1}'
         .format(vm, install_repo))
+
+    if httpmirrorproxy:
+        xenhost.run(
+            'xe vm-param-set uuid={0} other-config:install-proxy={0}'
+            .format(httpmirrorproxy)
 
     xenhost.run(
         'xe vm-param-set uuid={0} other-config:debian-release={1}'
@@ -148,6 +153,9 @@ def main():
     parser.add_argument(
         '--bootoptions', help='Additional boot options',
         default="")
+    parser.add_argument(
+        '--httpmirrorproxy', help='HTTP proxy to be used by XenServer',
+        default="")
 
 
     args = parser.parse_args()
@@ -165,7 +173,7 @@ def main():
             install_repo, args.preseed_file, args.vmname, args.hddsize,
             args.mac, args.fstype, args.usrpwd, args.packages, args.timezone,
             args.ntpserver, args.username, httpmirrorhost, args.httpmirrordirectory,
-            args.memsize, args.bootoptions
+            args.memsize, args.bootoptions, args.httpmirrorproxy
         )
     finally:
         disconnect_all()
