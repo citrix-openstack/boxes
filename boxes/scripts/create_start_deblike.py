@@ -90,10 +90,10 @@ def command(user, xspass, host, suite, install_repo, preseed_file,
         """.format(vm, vmname, domain, preseed_url, suite, fstype, usrpwd, packages, timezone, ntpserver, username,
             httpmirrorhost, httpmirrordirectory, bootoptions)))
 
-    bridge_name = 'xenbr0'
+    bridge_name = 'Pool-wide network associated with eth0'
 
     net = xenhost.run(
-        'xe network-list bridge={0} --minimal'
+        'xe network-list name-label="{0}" --minimal'
         .format(bridge_name))
 
     additional_net_options = "mac={0}".format(mac) if mac else ""
