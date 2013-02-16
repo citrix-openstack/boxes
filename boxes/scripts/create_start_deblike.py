@@ -58,8 +58,8 @@ def command(user, xspass, host, suite, install_repo, preseed_file,
 
     if httpmirrorproxy:
         xenhost.run(
-            'xe vm-param-set uuid={0} other-config:install-proxy={0}'
-            .format(httpmirrorproxy))
+            'xe vm-param-set uuid={0} other-config:install-proxy={1}'
+            .format(vm, httpmirrorproxy))
 
     xenhost.run(
         'xe vm-param-set uuid={0} other-config:debian-release={1}'
