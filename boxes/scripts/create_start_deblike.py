@@ -9,7 +9,7 @@ from boxes.scripts import lib
 
 def command(user, xspass, host, suite, install_repo, preseed_file,
             vmname, hddsize, mac, fstype, usrpwd, packages, timezone, ntpserver, username,
-            httpmirrorhost, httpmirrordirectory, memsize):
+            httpmirrorhost, httpmirrordirectory, memsize, bootoptions):
     template = 'Ubuntu Lucid Lynx 10.04 (64-bit)'
 
     xenhost = Server(host, user, xspass)
@@ -80,9 +80,9 @@ def command(user, xspass, host, suite, install_repo, preseed_file,
         passwd/username={10} \
         mirror/http/hostname={11} \
         mirror/http/directory={12} \
-        auto url={3}"
+        auto url={3} {13}"
         """.format(vm, vmname, domain, preseed_url, suite, fstype, usrpwd, packages, timezone, ntpserver, username,
-            httpmirrorhost, httpmirrordirectory)))
+            httpmirrorhost, httpmirrordirectory, bootoptions)))
 
     bridge_name = 'xenbr0'
 
@@ -144,6 +144,9 @@ def main():
     parser.add_argument(
         '--memsize', help='Memory size in MiB (2048)',
         default="2048")
+    parser.add_argument(
+        '--bootoptions', help='Additional boot options',
+        default="")
 
 
     args = parser.parse_args()
@@ -161,7 +164,7 @@ def main():
             install_repo, args.preseed_file, args.vmname, args.hddsize,
             args.mac, args.fstype, args.usrpwd, args.packages, args.timezone,
             args.ntpserver, args.username, httpmirrorhost, args.httpmirrordirectory,
-            args.memsize
+            args.memsize, args.bootoptions
         )
     finally:
         disconnect_all()
