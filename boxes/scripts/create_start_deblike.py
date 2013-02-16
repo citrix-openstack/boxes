@@ -9,7 +9,8 @@ from boxes.scripts import lib
 
 def command(user, xspass, host, suite, install_repo, preseed_file,
             vmname, hddsize, mac, fstype, usrpwd, packages, timezone, ntpserver, username,
-            httpmirrorhost, httpmirrordirectory, memsize, bootoptions, httpmirrorproxy):
+            httpmirrorhost, httpmirrordirectory, memsize, bootoptions, httpmirrorproxy,
+            networklabel):
     template = 'Ubuntu Lucid Lynx 10.04 (64-bit)'
 
     xenhost = Server(host, user, xspass)
@@ -90,11 +91,9 @@ def command(user, xspass, host, suite, install_repo, preseed_file,
         """.format(vm, vmname, domain, preseed_url, suite, fstype, usrpwd, packages, timezone, ntpserver, username,
             httpmirrorhost, httpmirrordirectory, bootoptions)))
 
-    bridge_name = 'Pool-wide network associated with eth0'
-
     net = xenhost.run(
         'xe network-list name-label="{0}" --minimal'
-        .format(bridge_name))
+        .format(networklabel))
 
     additional_net_options = "mac={0}".format(mac) if mac else ""
 
@@ -156,6 +155,9 @@ def main():
     parser.add_argument(
         '--httpmirrorproxy', help='HTTP proxy to be used by XenServer',
         default="")
+    parser.add_argument(
+        '--networklabel', help='name-label of the network to connect the server to',
+        default="Pool-wide network associated with eth0")
 
 
     args = parser.parse_args()
@@ -173,7 +175,7 @@ def main():
             install_repo, args.preseed_file, args.vmname, args.hddsize,
             args.mac, args.fstype, args.usrpwd, args.packages, args.timezone,
             args.ntpserver, args.username, httpmirrorhost, args.httpmirrordirectory,
-            args.memsize, args.bootoptions, args.httpmirrorproxy
+            args.memsize, args.bootoptions, args.httpmirrorproxy, args.networklabel
         )
     finally:
         disconnect_all()
