@@ -80,7 +80,8 @@ def command(user, xspass, host, suite, install_repo, preseed_file,
         passwd/username={10} \
         mirror/http/hostname={11} \
         mirror/http/directory={12} \
-        auto url={3} {13}"
+        {13} \
+        auto url={3}"
         """.format(vm, vmname, domain, preseed_url, suite, fstype, usrpwd, packages, timezone, ntpserver, username,
             httpmirrorhost, httpmirrordirectory, bootoptions)))
 
