@@ -31,6 +31,9 @@ def command(host, user, password, pubkey, license_server):
     logger.info('Setting licences')
     host_uuid = server.run('xe host-list --minimal')
 
+    if license_server is None:
+        return
+
     server.run(
         'xe host-apply-edition '
         'host-uuid=%s edition="platinum" '
@@ -45,7 +48,8 @@ def main():
     parser.add_argument('user', help='user')
     parser.add_argument('password', help='password')
     parser.add_argument('pubkey', help='Public key to copy')
-    parser.add_argument('license_server', help='Address of license server')
+    parser.add_argument('--license_server', help='Address of license server',
+                        default=None)
 
     args = parser.parse_args()
     command(args.host, args.user, args.password, args.pubkey,
