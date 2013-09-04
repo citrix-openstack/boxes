@@ -6,7 +6,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def command(host, user, password, pubkey, license_server):
+def _setup_ssh(host, user, password, pubkey, license_server):
     server = Server(host, user, password)
     server.disable_known_hosts = True
 
@@ -54,7 +54,7 @@ def setup_ssh():
     parser.add_argument('pubkey', help='Public key to copy')
 
     args = parser.parse_args()
-    setup_ssh(args.host, args.user, args.password, args.pubkey)
+    _setup_ssh(args.host, args.user, args.password, args.pubkey)
 
 def prepare_xs():
     logging.basicConfig(level=logging.INFO)
@@ -67,7 +67,7 @@ def prepare_xs():
                         default=None)
 
     args = parser.parse_args()
-    setup_ssh(args.host, args.user, args.password, args.pubkey)
+    _setup_ssh(args.host, args.user, args.password, args.pubkey)
     setup_license(args.host, args.user, args.password, args.pubkey,
             args.license_server)
 
