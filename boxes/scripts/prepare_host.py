@@ -28,11 +28,15 @@ def command(host, user, password, pubkey, license_server):
     logger.info('Establishing a connection to cache host key')
     server.run('ssh -o "StrictHostKeyChecking no" localhost hostname')
 
-    logger.info('Setting licences')
-    host_uuid = server.run('xe host-list --minimal')
+def setup_license(host, user, password, pubkey, license_server):
+    server = Server(host, user, password)
+    server.disable_known_hosts = True
 
     if license_server is None:
         return
+
+    logger.info('Setting licences')
+    host_uuid = server.run('xe host-list --minimal')
 
     server.run(
         'xe host-apply-edition '
@@ -41,7 +45,18 @@ def command(host, user, password, pubkey, license_server):
         'license-server-port="27000"' % (host_uuid, license_server))
 
 
-def main():
+def setup_ssh():
+    logging.basicConfig(level=logging.INFO)
+    parser = argparse.ArgumentParser(description='Prepare a machine ')
+    parser.add_argument('host', help='Host')
+    parser.add_argument('user', help='user')
+    parser.add_argument('password', help='password')
+    parser.add_argument('pubkey', help='Public key to copy')
+
+    args = parser.parse_args()
+    setup_ssh(args.host, args.user, args.password, args.pubkey)
+
+def prepare_xs():
     logging.basicConfig(level=logging.INFO)
     parser = argparse.ArgumentParser(description='Prepare a XenServer for CI')
     parser.add_argument('host', help='Host')
@@ -52,5 +67,7 @@ def main():
                         default=None)
 
     args = parser.parse_args()
-    command(args.host, args.user, args.password, args.pubkey,
+    setup_ssh(args.host, args.user, args.password, args.pubkey)
+    setup_license(args.host, args.user, args.password, args.pubkey,
             args.license_server)
+
