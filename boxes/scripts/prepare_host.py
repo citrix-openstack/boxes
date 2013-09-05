@@ -6,7 +6,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def _setup_ssh(host, user, password, pubkey, license_server):
+def _setup_ssh(host, user, password, pubkey):
     server = Server(host, user, password)
     server.disable_known_hosts = True
 
@@ -31,9 +31,6 @@ def _setup_ssh(host, user, password, pubkey, license_server):
 def setup_license(host, user, password, pubkey, license_server):
     server = Server(host, user, password)
     server.disable_known_hosts = True
-
-    if license_server is None:
-        return
 
     logger.info('Setting licences')
     host_uuid = server.run('xe host-list --minimal')
@@ -68,6 +65,6 @@ def prepare_xs():
 
     args = parser.parse_args()
     _setup_ssh(args.host, args.user, args.password, args.pubkey)
-    setup_license(args.host, args.user, args.password, args.pubkey,
-            args.license_server)
-
+    if args.license_server:
+        setup_license(args.host, args.user, args.password, args.pubkey,
+                      args.license_server)
