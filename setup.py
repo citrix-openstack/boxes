@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name='boxes',
-    version='0.4',
+    version='0.5',
     description='Automate your boxes',
     packages=['boxes', 'boxes.scripts'],
     install_requires=['fabric'],
@@ -16,9 +16,7 @@ setup(
             'create_start_deblike = boxes.scripts.create_start_deblike:main',
             'create_start_centos = boxes.scripts.create_start_centos:main',
             'install_openstack_plugins = boxes.scripts.install_openstack_plugins:main',
-            'get_devstack_domu_ip = boxes.scripts.get_devstack_domu_ip:main',
-            'start_devstack = boxes.scripts.start_devstack:main',
-            'run_tempest_tests = boxes.scripts.run_tempest_tests:main',
+            'get_guest_ip = boxes.scripts.get_guest_ip:main',
             'hard_reset = boxes.scripts.hard_reset:main',
             'install_pxeboot_config = boxes.scripts.pxeboot_config:install_main',
             'remove_pxeboot_config = boxes.scripts.pxeboot_config:remove_main',

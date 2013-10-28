@@ -20,29 +20,27 @@ def extract_ip(networks_line, iface):
         pass
 
 
-def get_devstack_ip(xenhost):
-    uuid = xenhost.run("xe vm-list name-label=DevStackOSDomU --minimal")
-    if not uuid:
-        uuid = xenhost.run(
-            "xe vm-list name-label=DevStackComputeSlave --minimal")
+def get_guest_ip(xenhost, guest):
+    uuid = xenhost.run("xe vm-list name-label={0} --minimal".format(guest))
+    if uuid:
+        network = xenhost.run(
+            "xe vm-param-get uuid={uuid} param-name=networks --minimal".format(
+            uuid=uuid))
 
-    network = xenhost.run(
-        "xe vm-param-get uuid={uuid} param-name=networks --minimal".format(
-        uuid=uuid))
-
-    return extract_ip(network, 2)
+        return extract_ip(network, 0)
 
 
-def command(user, password, host):
+def command(user, password, host, guest):
     xenhost = boxes.Server(host, user, password)
     xenhost.disable_known_hosts = True
-    return get_devstack_ip(xenhost)
+    return get_guest_ip(xenhost, guest)
 
 
 def main():
     import argparse
-    parser = argparse.ArgumentParser(description='Get the devstack domU IP')
+    parser = argparse.ArgumentParser(description='Get the IP of a guest')
     parser.add_argument('host', help='XenServer host name')
+    parser.add_argument('guest', help='guest name-label')
     parser.add_argument(
         '--password', help='Password for XenServer', default=None)
     parser.add_argument(
@@ -50,4 +48,8 @@ def main():
 
     args = parser.parse_args()
     user, password, host = args.user, args.password, args.host
-    print command(user, password, host)
+    ip = command(user, password, host, args.guest)
+    if ip:
+        print ip
+        sys.exit(0)
+    sys.exit(1)

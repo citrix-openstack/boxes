@@ -2,7 +2,7 @@ import re
 import os
 from fabric.api import put, run, get
 from fabric.contrib.files import exists
-from fabric.context_managers import settings
+from fabric.context_managers import settings, hide
 from fabric.network import disconnect_all as fab_disconnect_all
 import time
 import socket
@@ -32,15 +32,15 @@ class Server(object):
             disable_known_hosts=self.disable_known_hosts)
 
     def put(self, local_path, remote_path):
-        with settings(**self._settings):
+        with self.fabric_settings():
             put(local_path, remote_path)
 
     def get(self, remote_path, local_path):
-        with settings(**self._settings):
+        with self.fabric_settings():
             get(remote_path, local_path)
 
     def run(self, command):
-        with settings(**self._settings):
+        with self.fabric_settings():
             return run(command, shell=False)
 
     def wait_for_ssh(self, timeout=10):
@@ -57,8 +57,11 @@ class Server(object):
                 logger.info("tcp connection failed, waiting")
                 time.sleep(timeout)
 
+    def fabric_settings(self):
+        return settings(hide('everything'), **self._settings)
+
     def exists(self, path):
-        with settings(**self._settings):
+        with self.fabric_settings():
             return exists(path)
 
 
