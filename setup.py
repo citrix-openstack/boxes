@@ -17,8 +17,6 @@ setup(
             'create_start_centos = boxes.scripts.create_start_centos:main',
             'install_openstack_plugins = boxes.scripts.install_openstack_plugins:main',
             'get_guest_ip = boxes.scripts.get_guest_ip:main',
-            'start_devstack = boxes.scripts.start_devstack:main',
-            'run_tempest_tests = boxes.scripts.run_tempest_tests:main',
             'hard_reset = boxes.scripts.hard_reset:main',
             'install_pxeboot_config = boxes.scripts.pxeboot_config:install_main',
             'remove_pxeboot_config = boxes.scripts.pxeboot_config:remove_main',
