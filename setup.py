@@ -3,12 +3,12 @@ from setuptools import setup
 
 setup(
     name='boxes',
-    version='0.5',
+    version='0.6',
     description='Automate your boxes',
     packages=['boxes', 'boxes.scripts'],
     install_requires=['fabric'],
     package_data = {
-        'boxes': ['pdu-requirements.txt']
+        'boxes': ['pdu-requirements.txt', 'virt-kickstart']
     },
     entry_points = {
         'console_scripts': [
