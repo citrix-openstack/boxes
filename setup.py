@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name='boxes',
-    version='0.3',
+    version='0.4',
     description='Automate your boxes',
     packages=['boxes', 'boxes.scripts'],
     install_requires=['fabric'],
@@ -14,6 +14,7 @@ setup(
         'console_scripts': [
             'install_xcp_xapi = boxes.scripts.install_xcp_xapi:main',
             'create_start_deblike = boxes.scripts.create_start_deblike:main',
+            'create_start_centos = boxes.scripts.create_start_centos:main',
             'install_openstack_plugins = boxes.scripts.install_openstack_plugins:main',
             'get_devstack_domu_ip = boxes.scripts.get_devstack_domu_ip:main',
             'start_devstack = boxes.scripts.start_devstack:main',
