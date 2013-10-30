@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name='boxes',
-    version='0.6',
+    version='0.7',
     description='Automate your boxes',
     packages=['boxes', 'boxes.scripts'],
     install_requires=['fabric'],
@@ -26,7 +26,8 @@ setup(
             'prepare_generic_host = boxes.scripts.prepare_host:setup_ssh',
             'run_exercise = boxes.scripts.run_exercise:main',
             'restart_devstack_service = boxes.scripts.restart_devstack_service:main',
-            'set_extra_config = boxes.scripts.set_extra_config:main'
+            'set_extra_config = boxes.scripts.set_extra_config:main',
+            'havana-demo-connect-network-to-phy = boxes.scripts.xenserver:connect_network',
         ]
     }
 )
