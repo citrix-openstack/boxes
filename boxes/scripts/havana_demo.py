@@ -80,10 +80,9 @@ class ConnectNetwork(object):
         if params.interface in self.xenserver.get_interfaces_of_bridge(bridge):
             return
 
-        default_bridge_for_interface = 'br{0}'.format(params.interface)
-        if params.interface in self.xenserver.get_interfaces_of_bridge(default_bridge_for_interface):
+        if params.interface in self.xenserver.get_interfaces_of_bridge(params.default_bridge):
             self.xenserver.remove_interface_from_bridge(
-                params.interface, default_bridge_for_interface)
+                params.interface, params.default_bridge)
 
         self.xenserver.add_interface_to_bridge(
             params.interface, bridge)
@@ -102,6 +101,7 @@ def get_params(argv):
     parser.add_argument('xenserver_core_host')
     parser.add_argument('network')
     parser.add_argument('interface')
+    parser.add_argument('default_bridge')
     return parser.parse_args(argv)
 
 

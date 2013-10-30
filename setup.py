@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name='boxes',
-    version='0.7',
+    version='0.8',
     description='Automate your boxes',
     packages=['boxes', 'boxes.scripts'],
     install_requires=['fabric'],
