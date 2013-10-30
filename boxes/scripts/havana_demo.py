@@ -1,7 +1,7 @@
 import sys
 import argparse
 
-from boxes import Server
+from boxes import Server, disconnect_all
 
 
 class XenserverCore(object):
@@ -113,3 +113,5 @@ def connect_network():
     except CommandFailure as e:
         sys.stderr.write(e.message + '\n')
         sys.exit(1)
+    finally:
+        disconnect_all()
