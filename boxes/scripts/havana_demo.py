@@ -7,7 +7,7 @@ from boxes import Server
 class XenserverCore(object):
     def __init__(self, params):
         self.params = params
-        self.server = Server(params.xenserver_host, 'root')
+        self.server = Server(params.xenserver_core_host, 'root')
         self.server.disable_known_hosts = True
 
     @property
@@ -91,7 +91,7 @@ class ConnectNetwork(object):
 
 def get_params(argv):
     """
-    >>> get_params('xenserver network interface'.split()).xenserver_host
+    >>> get_params('xenserver network interface'.split()).xenserver_core_host
     'xenserver'
     >>> get_params('xenserver network interface'.split()).network
     'network'
@@ -99,7 +99,7 @@ def get_params(argv):
     'interface'
     """
     parser = argparse.ArgumentParser()
-    parser.add_argument('xenserver_host')
+    parser.add_argument('xenserver_core_host')
     parser.add_argument('network')
     parser.add_argument('interface')
     return parser.parse_args(argv)
