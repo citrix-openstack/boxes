@@ -27,7 +27,7 @@ setup(
             'run_exercise = boxes.scripts.run_exercise:main',
             'restart_devstack_service = boxes.scripts.restart_devstack_service:main',
             'set_extra_config = boxes.scripts.set_extra_config:main',
-            'havana-demo-connect-network-to-phy = boxes.scripts.xenserver:connect_network',
+            'havana-demo-connect-network-to-phy = boxes.scripts.havana_demo:connect_network',
         ]
     }
 )
