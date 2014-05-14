@@ -45,9 +45,9 @@ def command(user, xspass, host, suite, install_repo, preseed_file,
         .format(pool))
 
     vdi = xenhost.run(
-        'xe vdi-create name-label="boot" '
-        'sr-uuid={0} type=system virtual-size={1}GiB'
-        .format(sr, hddsize))
+        'xe vdi-create name-label="boot-{vmname}" '
+        'sr-uuid={sr} type=system virtual-size={hddsize}GiB'
+        .format(sr=sr, hddsize=hddsize, vmname=vmname))
 
     xenhost.run(
         'xe vbd-create vm-uuid={0} vdi-uuid={1} device=0 bootable=true'
