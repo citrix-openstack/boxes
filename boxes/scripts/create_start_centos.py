@@ -66,7 +66,7 @@ def create_centos(options):
     vdi = xenhost.run(
         'xe vdi-create name-label="boot-{vmname}" '
         'sr-uuid={sr} type=system virtual-size={hddsize}GiB'
-        .format(sr=sr, hddsize=hddsize, vmname=vmname))
+        .format(sr=sr, hddsize=options.hddsize, vmname=options.vmname))
 
     xenhost.run(
         'xe vbd-create vm-uuid={0} vdi-uuid={1} device=0 bootable=true'
