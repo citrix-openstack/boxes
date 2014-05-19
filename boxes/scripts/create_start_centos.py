@@ -23,8 +23,11 @@ def create_centos(options):
 
     vm = lib.clone_template(xenhost, template_uuid, options.vmname)
 
-    virt_kickstart_path = os.path.join(
-        os.path.dirname(boxes.__file__), "virt-kickstart")
+    if args.kickstart is None:
+        virt_kickstart_path = os.path.join(
+            os.path.dirname(boxes.__file__), "virt-kickstart")
+    else:
+        virt_kickstart_path = args.kickstart
 
     with open(virt_kickstart_path, 'rb') as virt_kickstart_file:
         virt_kickstart_contents = virt_kickstart_file.read()
@@ -104,6 +107,10 @@ def main():
     parser.add_argument(
         '--networklabel', help='name-label of the network to connect the server to',
         default="Pool-wide network associated with eth0")
+    parser.add_argument(
+        '--kickstart', help='Kickstart file to use',
+        default=None)
+
 
     args = parser.parse_args()
 
