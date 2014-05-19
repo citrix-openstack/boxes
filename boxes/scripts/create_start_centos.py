@@ -23,11 +23,11 @@ def create_centos(options):
 
     vm = lib.clone_template(xenhost, template_uuid, options.vmname)
 
-    if args.kickstart is None:
+    if options.kickstart is None:
         virt_kickstart_path = os.path.join(
             os.path.dirname(boxes.__file__), "virt-kickstart")
     else:
-        virt_kickstart_path = args.kickstart
+        virt_kickstart_path = options.kickstart
 
     with open(virt_kickstart_path, 'rb') as virt_kickstart_file:
         virt_kickstart_contents = virt_kickstart_file.read()
