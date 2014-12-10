@@ -29,6 +29,7 @@ setup(
             'set_extra_config = boxes.scripts.set_extra_config:main',
             'havana-demo-connect-network-to-phy = boxes.scripts.havana_demo:connect_network',
             'no_vm_with_name = boxes.scripts.no_vm_with_name:main',
+            'publish_guest_tools = boxes.scripts.publish_guest_tools:main',
         ]
     }
 )
