@@ -10,7 +10,7 @@ from boxes.scripts import lib
 def command(user, xspass, host, suite, install_repo, preseed_file,
             vmname, hddsize, mac, fstype, usrpwd, packages, timezone, ntpserver, username,
             httpmirrorhost, httpmirrordirectory, memsize, bootoptions, httpmirrorproxy,
-            networklabel):
+            networklabel, domain):
     template = 'Ubuntu Lucid Lynx 10.04 (64-bit)'
 
     xenhost = Server(host, user, xspass)
@@ -66,7 +66,6 @@ def command(user, xspass, host, suite, install_repo, preseed_file,
         'xe vm-param-set uuid={0} other-config:debian-release={1}'
         .format(vm, suite))
 
-    domain = 'somedomain'
     xenhost.run(
         textwrap.dedent(r"""
         xe vm-param-set uuid={0} PV-args="-- quiet console=hvc0 \
@@ -158,6 +157,9 @@ def main():
     parser.add_argument(
         '--networklabel', help='name-label of the network to connect the server to',
         default="Pool-wide network associated with eth0")
+    parser.add_argument(
+        '--domain', help='Domain name to use',
+        default="somedomain")
 
 
     args = parser.parse_args()
@@ -175,7 +177,8 @@ def main():
             install_repo, args.preseed_file, args.vmname, args.hddsize,
             args.mac, args.fstype, args.usrpwd, args.packages, args.timezone,
             args.ntpserver, args.username, httpmirrorhost, args.httpmirrordirectory,
-            args.memsize, args.bootoptions, args.httpmirrorproxy, args.networklabel
+            args.memsize, args.bootoptions, args.httpmirrorproxy, args.networklabel,
+            args.domain
         )
     finally:
         disconnect_all()
