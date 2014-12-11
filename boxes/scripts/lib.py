@@ -38,9 +38,10 @@ def vm_by_name(xenhost, vm_name):
 
 
 def vdis_of(xenhost, vm_uuid):
-    return xenhost.run(
+    vdis = xenhost.run(
         'xe vbd-list vm-uuid={vm_uuid} params=vdi-uuid --minimal'.format(
             vm_uuid=vm_uuid)).split(',')
+    return [vdi for vdi in vdis if vdi]
 
 
 def xva_location(xenhost):
