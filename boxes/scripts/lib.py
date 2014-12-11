@@ -85,3 +85,7 @@ def import_xva(xenhost, xva_name, vm_name):
     xenhost.run(
         'xe vm-param-set uuid={vm_uuid} name-label={vm_name}'.format(
             vm_uuid=vm_uuid, vm_name=vm_name))
+
+
+def start_vm(xenhost, vm_uuid):
+    xenhost.run('xe vm-start uuid={vm_uuid}'.format(vm_uuid=vm_uuid))
