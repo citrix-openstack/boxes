@@ -18,6 +18,17 @@ def set_disk(xenhost, vm_uuid, args):
             vdi_uuid=vdi, size=args.disk_size))
 
 
+def set_mem(xenhost, vm_uuid, args):
+    xenhost.run(
+        'xe vm-memory-limits-set uuid={vm_uuid}'
+        ' static-min={mem_size}'
+        ' static-max={mem_size}'
+        ' dynamic-min={mem_size}'
+        ' dynamic-max={mem_size}'.format(
+            vm_uuid=vm_uuid, mem_size='{mem_size}MiB'.format(
+                mem_size=args.mem_size)))
+
+
 def set_vm(args):
     xenhost = Server(args.host, args.xsuser, args.xspass)
     xenhost.disable_known_hosts = True
@@ -40,8 +51,13 @@ def main():
         '--xspass', help='Password for XenServer')
     subparsers = parser.add_subparsers(help='sub-command help')
 
-    parser_mem = subparsers.add_parser('disk', help='set disk')
-    parser_mem.add_argument('disk_size', help='set disk size in GiB', type=int)
-    parser_mem.set_defaults(operation=set_disk)
+    parser_disk = subparsers.add_parser('disk', help='set disk')
+    parser_disk.add_argument('disk_size', help='set disk size in GiB', type=int)
+    parser_disk.set_defaults(operation=set_disk)
+
+    parser_mem = subparsers.add_parser('mem', help='set memory')
+    parser_mem.add_argument('mem_size', help='Memory size in MiB', type=int)
+    parser_mem.set_defaults(operation=set_mem)
+
 
     set_vm(parser.parse_args())
