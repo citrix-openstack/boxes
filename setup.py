@@ -30,6 +30,12 @@ setup(
             'havana-demo-connect-network-to-phy = boxes.scripts.havana_demo:connect_network',
             'no_vm_with_name = boxes.scripts.no_vm_with_name:main',
             'publish_guest_tools = boxes.scripts.publish_guest_tools:main',
+            'bxs-delete-vms = boxes.scripts.delete_vms:main',
+            'bxs-list-vms = boxes.scripts.list_vms:main',
+            'bxs-export-xva = boxes.scripts.export_xva:main',
+            'bxs-import-xva = boxes.scripts.import_xva:main',
+            'bxs-list-xvas = boxes.scripts.list_xvas:main',
+            'bxs-wait-for-halt = boxes.scripts.wait_for_halt:main',
         ]
     }
 )

@@ -1,6 +1,7 @@
 import argparse
 import logging
 
+from boxes.scripts import lib
 from boxes import Server
 
 

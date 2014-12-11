@@ -1,16 +1,13 @@
 import sys
 import boxes
 
-
-def no_vm_with_name(xenhost, guest):
-    uuid = xenhost.run("xe vm-list name-label={0} --minimal".format(guest))
-    return not bool(uuid)
+from boxes.scripts import lib
 
 
 def command(user, password, host, guest):
     xenhost = boxes.Server(host, user, password)
     xenhost.disable_known_hosts = True
-    return no_vm_with_name(xenhost, guest)
+    return lib.no_vm_with_name(xenhost, guest)
 
 
 def main():
