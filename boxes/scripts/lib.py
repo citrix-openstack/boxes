@@ -50,6 +50,12 @@ def xva_location(xenhost):
     return location
 
 
+def delete_xva(xenhost, xva_name):
+    location = xva_location(xenhost)
+    xva_path = location + '/' + xva_name
+    xenhost.run('rm -f {xva_path}'.format(xva_path=xva_path))
+
+
 def filenames_of(xenhost, location):
     return xenhost.run('ls {location}'.format(
             location=location)

@@ -38,6 +38,7 @@ setup(
             'bxs-wait-for-halt = boxes.scripts.wait_for_halt:main',
             'bxs-start-vm = boxes.scripts.start_vm:main',
             'bxs-vm-ip = boxes.scripts.get_guest_ip:main',
+            'bxs-delete-xva = boxes.scripts.delete_xva:main',
         ]
     }
 )
