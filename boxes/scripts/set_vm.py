@@ -29,6 +29,33 @@ def set_mem(xenhost, vm_uuid, args):
                 mem_size=args.mem_size)))
 
 
+def set_mac(xenhost, vm_uuid, args):
+    network = xenhost.run(
+        'xe vif-list vm-uuid={vm_uuid} params=network-uuid --minimal'.format(
+            vm_uuid=vm_uuid))
+
+    device = xenhost.run(
+        'xe vif-list vm-uuid={vm_uuid} params=device --minimal'.format(
+            vm_uuid=vm_uuid))
+
+    old_vif = xenhost.run(
+        'xe vif-list vm-uuid={vm_uuid} --minimal'.format(vm_uuid=vm_uuid))
+
+    xenhost.run('xe vif-destroy uuid={old_vif}'.format(old_vif=old_vif))
+    xenhost.run(
+        'xe vif-create network-uuid={network}'
+        ' device={device}'
+        ' mac={mac_address}'
+        ' vm-uuid={vm_uuid}'.format(
+            network=network,
+            device=device,
+            mac_address=args.mac_address,
+            vm_uuid=vm_uuid)
+    )
+
+
+
+
 def set_vm(args):
     xenhost = Server(args.host, args.xsuser, args.xspass)
     xenhost.disable_known_hosts = True
@@ -59,5 +86,8 @@ def main():
     parser_mem.add_argument('mem_size', help='Memory size in MiB', type=int)
     parser_mem.set_defaults(operation=set_mem)
 
+    parser_mac = subparsers.add_parser('mac', help='set mac address')
+    parser_mac.add_argument('mac_address', help='New MAC address')
+    parser_mac.set_defaults(operation=set_mac)
 
     set_vm(parser.parse_args())
