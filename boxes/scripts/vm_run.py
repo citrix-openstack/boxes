@@ -15,8 +15,8 @@ def vm_run(args):
         vm.key_filenames.append(args.keyfile)
 
     vm.put(args.bash_script, 'vm_run.sh')
-    logging.info("Running {bash_script} on remote system".format(
-        bash_script=args.bash_script))
+    logging.info("Running {bash_script} on remote system {ip}".format(
+        bash_script=args.bash_script, ip=args.vm_ip))
     vm.run('bash vm_run.sh')
 
 
