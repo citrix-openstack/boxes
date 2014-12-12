@@ -9,6 +9,7 @@ logger = logging.getLogger(__name__)
 
 def vm_run(args):
     vm = Server(args.vm_ip, args.username, args.password)
+    vm.verbose = args.verbose
     vm.disable_known_hosts = True
     if args.keyfile:
         vm.key_filenames.append(args.keyfile)
@@ -32,6 +33,9 @@ def main():
         '--username', help='Username for the VM', default="ubuntu")
     parser.add_argument(
         '--password', help='Password for the vm')
+    parser.add_argument(
+        '--verbose', action="store_true",
+        default=False, help='Verbosely print out what is happening')
 
     vm_run(parser.parse_args())
 

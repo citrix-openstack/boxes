@@ -23,6 +23,7 @@ class Server(object):
         self.password = password
         self.disable_known_hosts = False
         self.key_filenames = []
+        self.verbose = False
 
     @property
     def _settings(self):
@@ -66,9 +67,11 @@ class Server(object):
                 time.sleep(timeout)
         return False
 
-
     def fabric_settings(self):
-        return settings(hide('everything'), **self._settings)
+        if self.verbose:
+            return settings(**self._settings)
+        else:
+            return settings(hide('everything'), **self._settings)
 
     def exists(self, path):
         with self.fabric_settings():
