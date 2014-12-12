@@ -40,6 +40,7 @@ setup(
             'bxs-vm-ip = boxes.scripts.get_guest_ip:main',
             'bxs-delete-xva = boxes.scripts.delete_xva:main',
             'bxs-vm-set = boxes.scripts.set_vm:main',
+            'bxs-wait-for-ssh = boxes.scripts.wait_for_ssh:main',
         ]
     }
 )
