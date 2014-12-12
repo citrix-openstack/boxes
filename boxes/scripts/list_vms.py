@@ -1,6 +1,7 @@
 import argparse
 import logging
 
+from boxes.scripts import lib
 from boxes import Server
 
 
@@ -8,10 +9,7 @@ def list_vms(args):
     xenhost = Server(args.host, args.xsuser, args.xspass)
     xenhost.disable_known_hosts = True
 
-    vm_names = xenhost.run(
-        'xe vm-list is-control-domain=false params=name-label --minimal')
-
-    for vm_name in vm_names.split(','):
+    for vm_name in lib.vm_names(xenhost):
         print vm_name
 
 

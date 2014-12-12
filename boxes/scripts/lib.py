@@ -13,6 +13,13 @@ def clone_template(xenhost, src_uuid, tgt_label):
         .format(src_uuid, tgt_label))
 
 
+def vm_names(xenhost):
+    vm_names = xenhost.run(
+        'xe vm-list is-control-domain=false params=name-label --minimal')
+
+    return [vm_name for vm_name in vm_names.split(',') if vm_name]
+
+
 def vm_halted(xenhost, vm_uuid):
     return 'halted' == xenhost.run(
         'xe vm-param-get param-name=power-state uuid={vm_uuid}'.format(
