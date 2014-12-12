@@ -36,7 +36,7 @@ setup(
             'bxs-import-xva = boxes.scripts.import_xva:main',
             'bxs-list-xvas = boxes.scripts.list_xvas:main',
             'bxs-wait-for-halt = boxes.scripts.wait_for_halt:main',
-            'bxs-start-vm = boxes.scripts.start_vm:main',
+            'bxs-vm-start = boxes.scripts.start_vm:main',
             'bxs-vm-ip = boxes.scripts.get_guest_ip:main',
             'bxs-delete-xva = boxes.scripts.delete_xva:main',
             'bxs-vm-set = boxes.scripts.set_vm:main',
