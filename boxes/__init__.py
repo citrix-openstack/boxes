@@ -44,18 +44,26 @@ class Server(object):
             return run(command, shell=False)
 
     def wait_for_ssh(self, timeout=10):
+        return self.wait_for_ssh_with_retries(
+            timeout, retry_condition=lambda x: True)
+
+    def wait_for_ssh_with_retries(self, timeout, retry_condition):
         timeout = timeout
-        while True:
+        iteration = 0
+        while retry_condition(iteration):
+            iteration += 1
             try:
                 logger.info("Trying to tcp connect to ssh server...")
                 socket.create_connection((self.host, 22), timeout=timeout)
                 # A final sleep
                 logger.info("tcp connection succeeded, additional delay")
                 time.sleep(timeout)
-                break
+                return True
             except Exception as e:
                 logger.info("tcp connection failed, waiting")
                 time.sleep(timeout)
+        return False
+
 
     def fabric_settings(self):
         return settings(hide('everything'), **self._settings)

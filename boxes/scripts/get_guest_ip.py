@@ -1,6 +1,8 @@
 import sys
 import boxes
 
+from boxes.scripts import lib
+
 
 def extract_ip(networks_line, iface):
     """
@@ -20,20 +22,19 @@ def extract_ip(networks_line, iface):
         pass
 
 
-def get_guest_ip(xenhost, guest):
-    uuid = xenhost.run("xe vm-list name-label={0} --minimal".format(guest))
-    if uuid:
-        network = xenhost.run(
-            "xe vm-param-get uuid={uuid} param-name=networks --minimal".format(
-            uuid=uuid))
+def get_guest_ip(xenhost, vm_uuid):
+    network = xenhost.run(
+        "xe vm-param-get uuid={uuid} param-name=networks --minimal".format(
+        uuid=vm_uuid))
 
-        return extract_ip(network, 0)
+    return extract_ip(network, 0)
 
 
 def command(user, password, host, guest):
     xenhost = boxes.Server(host, user, password)
     xenhost.disable_known_hosts = True
-    return get_guest_ip(xenhost, guest)
+    vm_uuid = lib.vm_by_name(xenhost, guest)
+    return get_guest_ip(xenhost, vm_uuid)
 
 
 def main():
