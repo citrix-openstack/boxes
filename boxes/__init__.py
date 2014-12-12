@@ -22,6 +22,7 @@ class Server(object):
         self.user = user
         self.password = password
         self.disable_known_hosts = False
+        self.key_filenames = []
 
     @property
     def _settings(self):
@@ -29,7 +30,8 @@ class Server(object):
             host_string=self.host,
             user=self.user,
             password=self.password,
-            disable_known_hosts=self.disable_known_hosts)
+            disable_known_hosts=self.disable_known_hosts,
+            key_filename=self.key_filenames)
 
     def put(self, local_path, remote_path):
         with self.fabric_settings():
