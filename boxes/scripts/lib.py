@@ -103,3 +103,7 @@ def import_xva(xenhost, xva_name, vm_name):
 
 def start_vm(xenhost, vm_uuid):
     xenhost.run('xe vm-start uuid={vm_uuid}'.format(vm_uuid=vm_uuid))
+
+
+def stop_vm(xenhost, vm_uuid):
+    xenhost.run('xe vm-shutdown uuid={vm_uuid}'.format(vm_uuid=vm_uuid))
