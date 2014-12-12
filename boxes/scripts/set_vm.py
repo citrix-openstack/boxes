@@ -30,7 +30,17 @@ def set_network(xenhost, vm_uuid, args):
         ' device={device} --minimal'.format(
             vm_uuid=vm_uuid, device=args.device))
 
+    mac_options = ""
     if vif:
+        mac_of_vif = xenhost.run(
+            'xe vif-param-get'
+            ' uuid={vif}'
+            ' param-name=MAC'
+            ' --minimal'.format(
+                vif=vif)).strip()
+
+        mac_options = ' mac={mac}'.format(mac=mac_of_vif)
+
         network_of_vif = xenhost.run(
             'xe vif-list'
             ' vm-uuid={vm_uuid}'
@@ -53,6 +63,7 @@ def set_network(xenhost, vm_uuid, args):
             network=network,
             device=args.device,
             vm_uuid=vm_uuid)
+        + mac_options
     )
 
 
@@ -140,7 +151,8 @@ def main():
 
     parser_net = subparsers.add_parser('network', help='set network')
     parser_net.add_argument('network_name', help='name of the network')
-    parser_net.add_argument('--device', help='device to set', type=int)
+    parser_net.add_argument(
+        '--device', help='device to set', type=int, default=0)
     parser_net.set_defaults(operation=set_network)
 
     set_vm(parser.parse_args())
