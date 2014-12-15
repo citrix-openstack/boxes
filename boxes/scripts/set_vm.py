@@ -90,6 +90,13 @@ def set_mem(xenhost, vm_uuid, args):
                 mem_size=args.mem_size)))
 
 
+def set_vcpus(xenhost, vm_uuid, args):
+    xenhost.run(
+        'xe vm-param-set uuid={vm_uuid}'
+        ' VCPUs-max={vcpus} VCPUs-at-startup={vcpus}'.format(
+            vm_uuid=vm_uuid, vcpus=args.number_of_vcpus))
+
+
 def set_mac(xenhost, vm_uuid, args):
     network = xenhost.run(
         'xe vif-list vm-uuid={vm_uuid} params=network-uuid --minimal'.format(
@@ -154,5 +161,10 @@ def main():
     parser_net.add_argument(
         '--device', help='device to set', type=int, default=0)
     parser_net.set_defaults(operation=set_network)
+
+    parser_net = subparsers.add_parser('vcpus', help='Set number of vCPUs')
+    parser_net.add_argument(
+        'number_of_vcpus', help='Number of vCPUs', type=int)
+    parser_net.set_defaults(operation=set_vcpus)
 
     set_vm(parser.parse_args())
