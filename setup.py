@@ -43,6 +43,7 @@ setup(
             'bxs-wait-for-ssh = boxes.scripts.wait_for_vm_ssh:main',
             'bxs-vm-run = boxes.scripts.vm_run:main',
             'bxs-vm-stop = boxes.scripts.vm_stop:main',
+            'bxs-vm-autostart = boxes.scripts.vm_autostart:main',
         ]
     }
 )
